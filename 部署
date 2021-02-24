@@ -1,0 +1,56 @@
+学习强国docker用法
+docker文件地址   https://github.com/fuck-xuexiqiangguo/docker
+构建  docker  docker build -t Docker .
+后台run  docker run -d --name xuexi Docker
+扫码登陆    docker logs -f xuexi
+ 
+
+每天自动学习
+修改script.sh文件
+复制代码
+ 1 #!/bin/sh
+ 2 # 这一句必须有，删掉旧的锁
+ 3 rm -rf /tmp/.X9-lock
+ 4 
+ 5 # 运行 xvfb
+ 6 Xvfb -ac -screen scrn 1280x2000x24 :9.0 &
+ 7 
+ 8 # 更新
+ 9 wget -nv -O /app/resources/app.asar https://github.com/fuck-xuexiqiangguo/Fuck-XueXiQiangGuo/raw/master/app.asar
+10 
+11 # 运行程序
+12 /app/Fuck学强国 --headless --username=手机号 --passwd=密码
+复制代码
+ 
+
+将script.sh复制到docker里面去
+1 docker cp 本地路径 容器长ID:容器路径
+2 
+3 docker cp script.sh  xuexi:script.sh
+ 
+
+写一个定时脚本
+复制代码
+ 1 #!/bin/bash
+ 2 
+ 3 # 关闭旧的容器
+ 4 docker stop xuexi
+ 5 echo "暂停旧容器成功"
+ 6 
+ 7 # 睡3秒
+ 8 sleep 3s
+ 9 
+10 # 启动新的镜像
+11 docker start xuexi
+12 
+13 echo "启动xuexi成功，开始赚取积分"
+复制代码
+ 
+
+cron每天定时执行脚本
+1 # 强国学习刷积分
+2 30 12 * * * bash /home/docker/china/xuexi.sh
+
+
+
+https://www.cnblogs.com/wenbochang/p/10905634.html
